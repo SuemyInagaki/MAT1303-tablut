@@ -2,6 +2,13 @@
 
 ## Regras do jogo
 
+### Objetivos do jogo
+#### para os russos
+veoinv fb
+
+#### para os suecos
+cneou vjronv
+
 ### Peças
 As peças se movimentam no sentido vertical ou horizontal por quantas casas o jogador quiser. O único obstáculo  é a presença de outra peça.
 - Russos: 16 peças
