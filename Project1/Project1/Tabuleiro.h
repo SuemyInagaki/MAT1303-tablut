@@ -1,11 +1,23 @@
 #pragma once
+
+#include "Jogador.h"
+
 #define TAM_QUADRADO 100
+
 class Tabuleiro
 {
 private:
-	static void desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue);
+	Jogador *russo;
+	Jogador *sueco;
+	void desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue);
 public:
-	Tabuleiro() {}
-	static void Display();
+	static void SDisplay();
+	static Tabuleiro* getInstance()
+	{
+		static Tabuleiro* tabuleiro = new Tabuleiro;
+		return tabuleiro;
+	}
+	Tabuleiro();
+	void Display();
 };
 

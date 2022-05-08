@@ -2,7 +2,12 @@
 #include <glut.h>
 
 #include "Tabuleiro.h"
+#include "Jogador.h"
 
+Tabuleiro::Tabuleiro() {
+	russo = new Jogador(false);
+	sueco = new Jogador(true);
+}
 void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue) {
 	glColor3ub(red, green, blue);
 	glBegin(GL_QUADS);
@@ -11,6 +16,13 @@ void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyt
 		glVertex2f((i + 1) * TAM_QUADRADO, (j + 1) * TAM_QUADRADO);
 		glVertex2f(i * TAM_QUADRADO, (j + 1) * TAM_QUADRADO);
 	glEnd();
+}
+
+void Tabuleiro::SDisplay() {
+	getInstance()->Display();
+
+	glFlush(); //transfere o colorBuffer para a visualizacao
+	glutSwapBuffers();
 }
 
 void Tabuleiro::Display() {
@@ -51,7 +63,7 @@ void Tabuleiro::Display() {
 	}
 	glEnd();
 
-	glFlush(); //transfere o colorBuffer para a visualizacao
-	glutSwapBuffers();
+	russo->Display();
+	sueco->Display();
 }
 

@@ -2,11 +2,14 @@
 class Peca
 {
 private:
-	int i, j;
+	int pos_i, pos_j;
+	bool ehRei;
 public:
-	Peca(int x, int y) {
-		i = x;
-		j = y;
+	Peca(int x, int y, bool ehRei) {
+		pos_i = x;
+		pos_j = y;
+		ehRei = ehRei;
 	}
+	void Display();
 };
 
