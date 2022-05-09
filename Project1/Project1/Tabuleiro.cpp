@@ -1,5 +1,8 @@
 #include <Windows.h>
 #include <glut.h>
+#include <iostream>
+
+using namespace std;
 
 #include "Tabuleiro.h"
 #include "Jogador.h"
@@ -7,6 +10,7 @@
 Tabuleiro::Tabuleiro() {
 	russo = new Jogador(false);
 	sueco = new Jogador(true);
+	pecaSelecionada = nullptr;
 }
 void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue) {
 	glColor3ub(red, green, blue);
@@ -23,6 +27,10 @@ void Tabuleiro::SDisplay() {
 
 	glFlush(); //transfere o colorBuffer para a visualizacao
 	glutSwapBuffers();
+}
+
+void Tabuleiro::SMouseButton(int button, int state, int x, int y) {
+	getInstance()->MouseButton(button, state, x, y);
 }
 
 void Tabuleiro::Display() {
@@ -65,5 +73,29 @@ void Tabuleiro::Display() {
 
 	russo->Display();
 	sueco->Display();
+}
+
+void Tabuleiro::MouseButton(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+		int i = x / 100;
+		int j = (900 - y) / 100;
+		Peca * sel = russo->select(i, j);
+		if (sel != nullptr) {
+			if (sel->isSelecionado() && pecaSelecionada)
+				pecaSelecionada->setSelecionado(false);
+
+			pecaSelecionada = sel;
+		}
+		else {
+			if (pecaSelecionada != nullptr) {
+				pecaSelecionada->setPosI(i);
+				pecaSelecionada->setPosJ(j);
+				pecaSelecionada->setSelecionado(false);
+				pecaSelecionada = nullptr;
+			}
+		}
+		Tabuleiro::SDisplay();
+		
+	}
 }
 

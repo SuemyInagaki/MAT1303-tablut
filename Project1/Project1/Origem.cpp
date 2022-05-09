@@ -12,5 +12,7 @@ int main(int argc, char** argv)
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Tablut");
 	glutDisplayFunc(Tabuleiro::SDisplay); //precisa ser um metodo estatico
+	glutMouseFunc(Tabuleiro::SMouseButton); //le se um botao do mouse foi pressionado
+
 	glutMainLoop();
 }
