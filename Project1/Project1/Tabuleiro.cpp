@@ -7,12 +7,14 @@ using namespace std;
 #include "Tabuleiro.h"
 #include "Jogador.h"
 
-Tabuleiro::Tabuleiro() {
+Tabuleiro::Tabuleiro()
+{
 	russo = new Jogador(false);
 	sueco = new Jogador(true);
 	pecaSelecionada = nullptr;
 }
-void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue) {
+void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue)
+{
 	glColor3ub(red, green, blue);
 	glBegin(GL_QUADS);
 		glVertex2f(i * TAM_QUADRADO, j * TAM_QUADRADO);
@@ -22,25 +24,16 @@ void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyt
 	glEnd();
 }
 
-void Tabuleiro::SDisplay() {
-	getInstance()->Display();
-
-	glFlush(); //transfere o colorBuffer para a visualizacao
-	glutSwapBuffers();
-}
-
-void Tabuleiro::SMouseButton(int button, int state, int x, int y) {
-	getInstance()->MouseButton(button, state, x, y);
-}
-
-void Tabuleiro::Display() {
+void Tabuleiro::Display()
+{
 	glLineWidth(5.0);
-	glClearColor(217.0f/255.0f, 199.0f / 255.0f, 159.0f / 255.0f, 0); //define qual cor vai pintar a tela
+	glClearColor(217.0f / 255.0f, 199.0f / 255.0f, 159.0f / 255.0f, 0); //define qual cor vai pintar a tela
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, (9 * TAM_QUADRADO), 0, (9 * TAM_QUADRADO));
 	glClear(GL_COLOR_BUFFER_BIT); //pinta com a cor do glClearColor(.....)
-	for (int i = 3; i < 6; i++) {
+	for (int i = 3; i < 6; i++)
+	{
 		desenhaQuadrado(0, i, 120, 78, 47);
 		desenhaQuadrado(8, i, 120, 78, 47);
 		desenhaQuadrado(i, 0, 120, 78, 47);
@@ -59,13 +52,20 @@ void Tabuleiro::Display() {
 		desenhaQuadrado(4, i + 3, 214, 135, 78);
 	}
 
+	for (std::pair<int, int> pos : pospossible)
+	{
+		desenhaQuadrado(pos.first, pos.second, 255, 0, 0);
+	}
+
 	glColor3f(0, 0, 0);
 	glBegin(GL_LINES);
-	for (int x = 0; x <= (9 * TAM_QUADRADO); x += TAM_QUADRADO) {
+	for (int x = 0; x <= (9 * TAM_QUADRADO); x += TAM_QUADRADO)
+	{
 		glVertex2f(x, 0);
 		glVertex2f(x, (9 * TAM_QUADRADO));
 	}
-	for (int y = 0; y <= (9 * TAM_QUADRADO); y += TAM_QUADRADO) {
+	for (int y = 0; y <= (9 * TAM_QUADRADO); y += TAM_QUADRADO)
+	{
 		glVertex2f(0, y);
 		glVertex2f((9 * TAM_QUADRADO), y);
 	}
@@ -75,27 +75,43 @@ void Tabuleiro::Display() {
 	sueco->Display();
 }
 
-void Tabuleiro::MouseButton(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+void Tabuleiro::MouseButton(int button, int state, int x, int y)
+{
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
+	{
+
 		int i = x / 100;
 		int j = (900 - y) / 100;
-		Peca * sel = russo->select(i, j);
-		if (sel != nullptr) {
-			if (sel->isSelecionado() && pecaSelecionada)
+		Peca* sel = russo->select(i, j);
+		if (sel != nullptr)
+		{
+			pospossible.clear();
+			if (sel->isSelecionado() && pecaSelecionada && pecaSelecionada != sel)
 				pecaSelecionada->setSelecionado(false);
 
 			pecaSelecionada = sel;
+
+			if (pecaSelecionada->isSelecionado())
+				pecaSelecionada->getPosPossible(pospossible);
 		}
-		else {
-			if (pecaSelecionada != nullptr) {
-				pecaSelecionada->setPosI(i);
-				pecaSelecionada->setPosJ(j);
+		else
+		{
+			if (pecaSelecionada != nullptr)
+			{
+				pecaSelecionada->setPos(i, j);
 				pecaSelecionada->setSelecionado(false);
 				pecaSelecionada = nullptr;
+				pospossible.clear();
 			}
 		}
-		Tabuleiro::SDisplay();
-		
 	}
 }
 
+bool Tabuleiro::hasPeca(int i, int j)
+{
+	Peca* peca = russo->get(i, j);
+	if (peca != nullptr)
+		return true;
+	peca = sueco->get(i, j);
+	return (peca != nullptr);
+}

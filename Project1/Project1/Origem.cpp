@@ -4,6 +4,26 @@ using namespace std;
 
 #include "Tabuleiro.h"
 
+static void display()
+{
+	Tabuleiro::getInstance()->Display();
+
+	glFlush(); //transfere o colorBuffer para a visualizacao
+	glutSwapBuffers();
+}
+
+static void mouseButton(int button, int state, int x, int y)
+{
+	Tabuleiro::getInstance()->MouseButton(button, state, x, y);
+	display();
+}
+
+static void resize(int width, int height)
+{
+	// we ignore the params and do:
+	glutReshapeWindow(900, 900);
+}
+
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
@@ -11,8 +31,9 @@ int main(int argc, char** argv)
 	glutInitWindowSize(900, 900);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Tablut");
-	glutDisplayFunc(Tabuleiro::SDisplay); //precisa ser um metodo estatico
-	glutMouseFunc(Tabuleiro::SMouseButton); //le se um botao do mouse foi pressionado
+	glutDisplayFunc(display); //precisa ser um metodo estatico
+	glutMouseFunc(mouseButton); //le se um botao do mouse foi pressionado
+	glutReshapeFunc(resize);
 
 	glutMainLoop();
 }

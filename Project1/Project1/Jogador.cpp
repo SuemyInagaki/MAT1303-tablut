@@ -52,12 +52,20 @@ void Jogador::Display()
 	}
 }
 
-Peca* Jogador::select(int i, int j) {
+Peca* Jogador::get(int i, int j)
+{
 	for (Peca* peca : d_pecas) {
 		if (peca->getPosI() == i && peca->getPosJ() == j) {
-			peca->invertSelecionado();
 			return peca;
 		}
 	}
 	return nullptr;
+}
+
+Peca* Jogador::select(int i, int j) {
+	Peca* peca = get(i, j);
+	if (peca != nullptr)
+		peca->invertSelecionado();
+
+	return peca;
 }

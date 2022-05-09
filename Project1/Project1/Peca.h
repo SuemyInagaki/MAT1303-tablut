@@ -1,4 +1,8 @@
 #pragma once
+
+#include <vector>
+#include <utility>
+
 class Peca
 {
 private:
@@ -40,6 +44,10 @@ public:
 	int getPosJ() {
 		return d_pos_j;
 	}
+
+	bool setPos(int i, int j);
+
+	void getPosPossible(std::vector<std::pair<int, int>>& pospossible);
 
 	void Display();
 };

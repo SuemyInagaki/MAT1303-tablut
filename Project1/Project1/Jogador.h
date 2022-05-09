@@ -10,6 +10,7 @@ private:
 public:
 	Jogador(bool temRei);
 	void Display();
+	Peca* get(int i, int j);
 	Peca* select(int i, int j);
 };
 

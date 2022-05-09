@@ -9,6 +9,46 @@
 
 #define DISCR 36
 
+void Peca::getPosPossible(std::vector<std::pair<int, int>>& pospossible)
+{
+	Tabuleiro *tabuleiro = Tabuleiro::getInstance();
+	for (int i = d_pos_i + 1; i < 10; i++)
+	{
+		if (tabuleiro->hasPeca(i, d_pos_j))
+			break;
+		pospossible.push_back(std::make_pair(i, d_pos_j));
+	}
+	for (int i = d_pos_i - 1; i >= 0; i--)
+	{
+		if (tabuleiro->hasPeca(i, d_pos_j))
+			break;
+		pospossible.push_back(std::make_pair(i, d_pos_j));
+	}
+	for (int j = d_pos_j + 1; j < 10; j++)
+	{
+		if (tabuleiro->hasPeca(d_pos_i, j))
+			break;
+		pospossible.push_back(std::make_pair(d_pos_i, j));
+	}
+	for (int j = d_pos_j - 1; j >= 0; j--)
+	{
+		if (tabuleiro->hasPeca(d_pos_i, j))
+			break;
+		pospossible.push_back(std::make_pair(d_pos_i, j));
+	}
+}
+
+bool Peca::setPos(int i, int j) {
+	std::vector<std::pair<int, int>>& pospossible = Tabuleiro::getInstance()->getPospossible();
+	for (std::pair<int, int> pos : pospossible)
+		if (i == pos.first && j == pos.second) {
+			d_pos_i = i;
+			d_pos_j = j;
+			return true;
+		}
+	return false;
+}
+
 void Peca::Display()
 {
 	double radio = (TAM_QUADRADO / 2.0 - 10);
