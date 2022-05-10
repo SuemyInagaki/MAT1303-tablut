@@ -1,8 +1,9 @@
 #include <iostream>
-using namespace std;
 #include <glut.h>
-
 #include "Tabuleiro.h"
+
+using namespace std;
+
 
 static void display()
 {
