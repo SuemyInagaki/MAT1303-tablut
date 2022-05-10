@@ -7,6 +7,8 @@ using namespace std;
 #define DIMX 630
 #define DIMY 630
 
+int qt = 0; //quantidade de jogadores
+
 static void display()
 {
 	Tabuleiro::getInstance()->Display();
@@ -30,13 +32,31 @@ static void resize(int width, int height)
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowSize(DIMX, DIMY);
-	glutInitWindowPosition(100, 100);
-	glutCreateWindow("Tablut");
-	glutDisplayFunc(display); //precisa ser um metodo estatico
-	glutMouseFunc(mouseButton); //le se um botao do mouse foi pressionado
-	glutReshapeFunc(resize);
+	while (qt != 1 && qt != 2) {
+		cout << "Digite a quantidade de jogadores" << endl;
+		cout << "1 se for jogar contra o computador" << endl;
+		cout << "2 se for jogar contra outra pessoa" << endl;
+		cout << "3 se quiser encerrar o jogo" << endl;
+		cin >> qt;
+		if (qt == 3) {
+			exit(1);
+		}
+	}
 
-	glutMainLoop();
+
+	if (qt == 1) {
+		//Inicia com computador
+	}
+	else {
+		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+		glutInitWindowSize(DIMX, DIMY);
+		glutInitWindowPosition(50, 50);
+		glutCreateWindow("Tablut");
+		glutDisplayFunc(display); //precisa ser um metodo estatico
+		glutMouseFunc(mouseButton); //le se um botao do mouse foi pressionado
+		glutReshapeFunc(resize);
+		glutMainLoop();
+	}
+
+	
 }
