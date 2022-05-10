@@ -4,6 +4,8 @@
 
 using namespace std;
 
+#define DIMX 600
+#define DIMY 600
 
 static void display()
 {
@@ -22,14 +24,14 @@ static void mouseButton(int button, int state, int x, int y)
 static void resize(int width, int height)
 {
 	// we ignore the params and do:
-	glutReshapeWindow(900, 900);
+	glutReshapeWindow(DIMX, DIMY);
 }
 
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowSize(900, 900);
+	glutInitWindowSize(DIMX, DIMY);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow("Tablut");
 	glutDisplayFunc(display); //precisa ser um metodo estatico
