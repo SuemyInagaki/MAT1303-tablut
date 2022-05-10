@@ -2,6 +2,7 @@
 #include <glut.h>
 #include <iostream>
 
+
 using namespace std;
 
 #include "Tabuleiro.h"
@@ -32,6 +33,8 @@ void Tabuleiro::Display()
 	glLoadIdentity();
 	gluOrtho2D(0, (9 * TAM_QUADRADO), 0, (9 * TAM_QUADRADO));
 	glClear(GL_COLOR_BUFFER_BIT); //pinta com a cor do glClearColor(.....)
+	
+	// Desenha as peças russas
 	for (int i = 3; i < 6; i++)
 	{
 		desenhaQuadrado(0, i, 120, 78, 47);
@@ -45,13 +48,14 @@ void Tabuleiro::Display()
 	desenhaQuadrado(4, 7, 120, 78, 47);
 	desenhaQuadrado(4, 4, 120, 78, 47);
 
+	// desenha as peças suecas
 	for (int i = 2; i < 4; i++) {
 		desenhaQuadrado(i, 4, 214, 135, 78);
 		desenhaQuadrado(i + 3, 4, 214, 135, 78);
 		desenhaQuadrado(4, i, 214, 135, 78);
 		desenhaQuadrado(4, i + 3, 214, 135, 78);
 	}
-
+	// pinta os possiveis movimentos da peça selecionada
 	for (std::pair<int, int> pos : pospossible)
 	{
 		desenhaQuadrado(pos.first, pos.second, 255, 0, 0);
@@ -80,8 +84,8 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
 	{
 
-		int i = x / 100;
-		int j = (900 - y) / 100;
+		int i = x / TAM_QUADRADO;
+		int j = (DIMX - y) / TAM_QUADRADO;
 		Peca* sel = russo->select(i, j);
 		if (sel != nullptr)
 		{

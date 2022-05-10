@@ -2,7 +2,9 @@
 
 #include "Jogador.h"
 
-#define TAM_QUADRADO 100
+#define TAM_QUADRADO 70
+#define DIMX 630
+#define DIMY 630
 
 class Tabuleiro
 {

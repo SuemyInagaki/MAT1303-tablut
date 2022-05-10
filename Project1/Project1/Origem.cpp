@@ -4,8 +4,8 @@
 
 using namespace std;
 
-#define DIMX 600
-#define DIMY 600
+#define DIMX 630
+#define DIMY 630
 
 static void display()
 {
