@@ -44,14 +44,17 @@ void Tabuleiro::trocaJogadorDaVez() {
 }
 
 void Tabuleiro::verificaSeGanhou() {
+	
+	cout << " Entrei" << endl;
 	bool ehRei = pecaSelecionada->getEhRei(); // verifica se a peça selecionada é o rei
 	if (ehRei) {
 		//se for o rei, tem que ver se chegou na margem.
 		int i = pecaSelecionada->getPosI();
 		int j = pecaSelecionada->getPosJ();
-		for (std::pair<int, int> m : margem)
+		for (pair<int, int> m : margem)
 		{
 			// rei sueco chegou na margem
+			cout << m.first << ", " << i << ", " << m.second << ", " << j << endl;
 			if (m.first == i && m.second == j) {
 				fimDeJogo = 0;
 				cout << "Jogador sueco ganhou" << endl;
@@ -59,6 +62,7 @@ void Tabuleiro::verificaSeGanhou() {
 			}
 		}
 	}
+	
 	// está na vez dos russos
 	if (jogadorDaVez == 1) {
 		vector<Peca*> pecas = sueco->getPecas();
@@ -98,17 +102,23 @@ void Tabuleiro::verificaSeCapturou() {
 void Tabuleiro::moveAleatoriamente() {
 	// pega as peças russas
 	vector<Peca*> pecasRussas = russo->getPecas();
-	if (pecasRussas.size() != 0) {
-		pecaSelecionada = pecasRussas[0];
-		pecaSelecionada->getPosPossible(pospossible);
-		if (pospossible.size() > 0) {
-			int i = pospossible[0].first;
-			int j = pospossible[0].second;
-			pecaSelecionada->setPos(i, j);
-			verificaSeGanhou();
+	while (pospossible.size() == 0) { //enquanto nao encontrar uma peça livre para mover, continua procurando
+		if (pecasRussas.size() != 0) {
+			int index = std::rand() % (pecasRussas.size());
+			pecaSelecionada = pecasRussas[index]; // escolhe a peça aleatoriamente
+			pecaSelecionada->setSelecionado(true);
+			pecaSelecionada->getPosPossible(pospossible); //preenche o vetor de possibilidades
+			if (pospossible.size() > 0) { //se a peça tem casas livres para mover
+				int index2 = std::rand() % (pospossible.size());
+				int i = pospossible[index2].first;
+				int j = pospossible[index2].second;
+				pecaSelecionada->setPos(i, j);
+			}
+		}
+		else { //nao tem mais peças russas
+			break;
 		}
 	}
-	
 }
 
 void Tabuleiro::Display()
@@ -198,17 +208,18 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 			{
 				bool moveu = pecaSelecionada->setPos(i, j); // move a peça, se possivel
 				if (moveu != false) { // só passa a vez do jogador se fizer um movimento valido
-					if (contraComputador == false) {
-						trocaJogadorDaVez(); // alterna entre os jogadores
-					}
-					else {
-						pecaSelecionada->setSelecionado(false); // desfaz a seleçao
-						pecaSelecionada = nullptr;
-						pospossible.clear();
-						moveAleatoriamente();
-					}
+					trocaJogadorDaVez(); // alterna entre os jogadores
 					verificaSeCapturou();
 					verificaSeGanhou();
+					if (contraComputador == true) {
+						pecaSelecionada->setSelecionado(false); // desfaz a seleçao da peça sueca
+						pecaSelecionada = nullptr;
+						pospossible.clear();
+						moveAleatoriamente(); //move a peça russa aleatoriamente
+						verificaSeCapturou();
+						verificaSeGanhou();
+						trocaJogadorDaVez(); // passa a vez de volta para os suecos
+					}
 				}
 				pecaSelecionada->setSelecionado(false); // desfaz a seleçao
 				pecaSelecionada = nullptr;
