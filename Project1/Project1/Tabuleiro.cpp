@@ -45,7 +45,6 @@ void Tabuleiro::trocaJogadorDaVez() {
 
 void Tabuleiro::verificaSeGanhou() {
 	
-	cout << " Entrei" << endl;
 	bool ehRei = pecaSelecionada->getEhRei(); // verifica se a peça selecionada é o rei
 	if (ehRei) {
 		//se for o rei, tem que ver se chegou na margem.
@@ -54,7 +53,6 @@ void Tabuleiro::verificaSeGanhou() {
 		for (pair<int, int> m : margem)
 		{
 			// rei sueco chegou na margem
-			cout << m.first << ", " << i << ", " << m.second << ", " << j << endl;
 			if (m.first == i && m.second == j) {
 				fimDeJogo = 0;
 				cout << "Jogador sueco ganhou" << endl;
@@ -86,17 +84,35 @@ void Tabuleiro::setContraComputador() {
 	contraComputador = true;
 }
 
+
 void Tabuleiro::verificaSeCapturou() {
 	vector<Peca*> pecasRussas = russo->getPecas();
 	vector<Peca*> pecasSuecas = sueco->getPecas();
-	/*
-	if (jogadorDaVez == 0) { //ver se os suecos cercaram algum russo
 
+	if (jogadorDaVez == 0) { //ver se os suecos cercaram algum russo
+		for (Peca* p : pecasRussas) {
+			int i = p->getPosI();
+			int j = p->getPosJ();
+			// verifica se esta na margem
+			bool ehMargem = false;
+			for (pair<int, int> m : margem)
+			{
+				if (m.first == i && m.second == j) {
+					ehMargem = true;
+				}
+			}
+			if (ehMargem == false) {
+				if (((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 10) || (hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 10) {
+					russo->remove(i, j);
+					pecasRussas = russo->getPecas();
+				}
+				//falta o caso da margem
+			}
+		}
 	}
 	else { // ver se os russos cercaram algum sueco
 
 	}
-	*/
 }
 
 void Tabuleiro::moveAleatoriamente() {
@@ -208,9 +224,9 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 			{
 				bool moveu = pecaSelecionada->setPos(i, j); // move a peça, se possivel
 				if (moveu != false) { // só passa a vez do jogador se fizer um movimento valido
-					trocaJogadorDaVez(); // alterna entre os jogadores
 					verificaSeCapturou();
 					verificaSeGanhou();
+					trocaJogadorDaVez(); // alterna entre os jogadores
 					if (contraComputador == true) {
 						pecaSelecionada->setSelecionado(false); // desfaz a seleçao da peça sueca
 						pecaSelecionada = nullptr;
@@ -229,11 +245,15 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 	}
 }
 
-bool Tabuleiro::hasPeca(int i, int j)
+int Tabuleiro::hasPeca(int i, int j)
 {
 	Peca* peca = russo->get(i, j);
 	if (peca != nullptr)
-		return true;
+		return 1;
+	peca = nullptr;
 	peca = sueco->get(i, j);
-	return (peca != nullptr);
+	if (peca != nullptr) {
+		return 5;
+	}
+	return -1;
 }

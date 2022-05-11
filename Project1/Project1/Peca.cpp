@@ -14,25 +14,25 @@ void Peca::getPosPossible(std::vector<std::pair<int, int>>& pospossible)
 	Tabuleiro *tabuleiro = Tabuleiro::getInstance();
 	for (int i = d_pos_i + 1; i < 10; i++)
 	{
-		if (tabuleiro->hasPeca(i, d_pos_j))
+		if (tabuleiro->hasPeca(i, d_pos_j) != -1)
 			break;
 		pospossible.push_back(std::make_pair(i, d_pos_j));
 	}
 	for (int i = d_pos_i - 1; i >= 0; i--)
 	{
-		if (tabuleiro->hasPeca(i, d_pos_j))
+		if (tabuleiro->hasPeca(i, d_pos_j) != -1)
 			break;
 		pospossible.push_back(std::make_pair(i, d_pos_j));
 	}
 	for (int j = d_pos_j + 1; j < 10; j++)
 	{
-		if (tabuleiro->hasPeca(d_pos_i, j))
+		if (tabuleiro->hasPeca(d_pos_i, j) != -1)
 			break;
 		pospossible.push_back(std::make_pair(d_pos_i, j));
 	}
 	for (int j = d_pos_j - 1; j >= 0; j--)
 	{
-		if (tabuleiro->hasPeca(d_pos_i, j))
+		if (tabuleiro->hasPeca(d_pos_i, j) != -1)
 			break;
 		pospossible.push_back(std::make_pair(d_pos_i, j));
 	}
@@ -77,4 +77,8 @@ void Peca::Display()
 
 bool Peca::getEhRei() {
 	return d_ehRei;
+}
+
+void Peca::remove() {
+	d_pos_i = -1, d_pos_j = -1;
 }

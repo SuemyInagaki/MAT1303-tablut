@@ -33,7 +33,7 @@ public:
 
 	void Display();
 	void MouseButton(int button, int state, int x, int y);
-	bool hasPeca(int i, int j);
+	int hasPeca(int i, int j);
 	std::vector<std::pair<int, int>>& getPospossible()
 	{
 		return pospossible;

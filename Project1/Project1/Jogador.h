@@ -12,6 +12,7 @@ public:
 	void Display();
 	Peca* get(int i, int j);
 	Peca* select(int i, int j);
+	void remove(int i, int j);
 	std::vector<Peca*> getPecas();
 };
 

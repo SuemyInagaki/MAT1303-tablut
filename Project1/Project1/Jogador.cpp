@@ -1,8 +1,8 @@
 #include <Windows.h>
 #include <gl/GL.h>
-
+#include <iostream>
 #include "Jogador.h"
-
+using namespace std;
 Jogador::Jogador(bool temRei) {
 	d_temRei = temRei;
 	if (temRei) {
@@ -73,4 +73,24 @@ Peca* Jogador::select(int i, int j) {
 
 std::vector<Peca*> Jogador::getPecas() {
 	return d_pecas;
+}
+
+void Jogador::remove(int i, int j) {
+	int posicao = 0;
+	for (Peca* p : d_pecas) {
+		if (p == nullptr) {
+			cout << " ESTA NULL" << endl;
+		}
+		int pi = p->getPosI();
+		int pj = p->getPosJ();
+		if (pi == i && pj == j) {
+			cout << d_pecas.size() << endl;
+			d_pecas.erase(d_pecas.begin() + posicao-1, d_pecas.begin() + posicao);
+			cout << d_pecas.size() << endl;
+			cout << " Entrei pra apagar" << endl;
+			break;
+			return;
+		}
+		posicao++;
+	}
 }
