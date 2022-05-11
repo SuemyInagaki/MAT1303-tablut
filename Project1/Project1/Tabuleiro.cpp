@@ -90,7 +90,9 @@ void Tabuleiro::verificaSeCapturou() {
 	vector<Peca*> pecasSuecas = sueco->getPecas();
 
 	if (jogadorDaVez == 0) { //ver se os suecos cercaram algum russo
-		for (Peca* p : pecasRussas) {
+		int c = 0;
+		while (c < pecasRussas.size()) {
+			Peca* p = pecasRussas[c];
 			int i = p->getPosI();
 			int j = p->getPosJ();
 			// verifica se esta na margem
@@ -103,11 +105,13 @@ void Tabuleiro::verificaSeCapturou() {
 			}
 			if (ehMargem == false) {
 				if (((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 10) || (hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 10) {
-					russo->remove(i, j);
+					russo->remove(i, j); //esta apagando a peça errada. Quando era pra apagar i = 3 e j = 6, apaga i = 8 e j = 3
 					pecasRussas = russo->getPecas();
+					c--;
 				}
 				//falta o caso da margem
 			}
+			c++;
 		}
 	}
 	else { // ver se os russos cercaram algum sueco
