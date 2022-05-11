@@ -105,7 +105,7 @@ void Tabuleiro::verificaSeCapturou() {
 			}
 			if (ehMargem == false) {
 				if (((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 10) || (hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 10) {
-					russo->remove(i, j); //esta apagando a peça errada. Quando era pra apagar i = 3 e j = 6, apaga i = 8 e j = 3
+					russo->remove(c);
 					pecasRussas = russo->getPecas();
 					c--;
 				}
@@ -115,7 +115,29 @@ void Tabuleiro::verificaSeCapturou() {
 		}
 	}
 	else { // ver se os russos cercaram algum sueco
-
+		int c = 0;
+		while (c < pecasSuecas.size()) {
+			Peca* p = pecasSuecas[c];
+			int i = p->getPosI();
+			int j = p->getPosJ();
+			// verifica se esta na margem
+			bool ehMargem = false;
+			for (pair<int, int> m : margem)
+			{
+				if (m.first == i && m.second == j) {
+					ehMargem = true;
+				}
+			}
+			if (ehMargem == false) {
+				if (((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 2) || (hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 2) {
+					sueco->remove(c);
+					pecasSuecas = sueco->getPecas();
+					c--;
+				}
+				//falta o caso da margem
+			}
+			c++;
+		}
 	}
 }
 
