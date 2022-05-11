@@ -50,5 +50,7 @@ public:
 	void getPosPossible(std::vector<std::pair<int, int>>& pospossible);
 
 	void Display();
+
+	bool getEhRei();
 };
 

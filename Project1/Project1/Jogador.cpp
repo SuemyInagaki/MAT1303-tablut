@@ -70,3 +70,7 @@ Peca* Jogador::select(int i, int j) {
 
 	return peca;
 }
+
+std::vector<Peca*> Jogador::getPecas() {
+	return d_pecas;
+}

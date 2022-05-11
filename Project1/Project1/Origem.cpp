@@ -12,7 +12,6 @@ int qt = 0; //quantidade de jogadores
 static void display()
 {
 	Tabuleiro::getInstance()->Display();
-
 	glFlush(); //transfere o colorBuffer para a visualizacao
 	glutSwapBuffers();
 }

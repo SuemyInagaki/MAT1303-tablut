@@ -74,3 +74,7 @@ void Peca::Display()
 		glEnd();
 	}
 }
+
+bool Peca::getEhRei() {
+	return d_ehRei;
+}

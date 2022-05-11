@@ -16,6 +16,9 @@ private:
 	int jogadorDaVez;
 	void desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue);
 	void trocaJogadorDaVez();
+	void verificaSeGanhou();
+	int fimDeJogo;
+	std::vector<std::pair<int, int>> margem;
 
 public:
 	static Tabuleiro* getInstance()

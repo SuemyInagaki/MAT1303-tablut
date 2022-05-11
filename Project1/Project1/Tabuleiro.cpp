@@ -14,6 +14,14 @@ Tabuleiro::Tabuleiro()
 	sueco = new Jogador(true);
 	jogadorDaVez = 0;
 	pecaSelecionada = nullptr;
+	fimDeJogo = -1; // se suecos ganharam, fimDeJogo = 0. Se russos ganharam, fim de jogo = 1
+	// preenche o array de margem
+	for (int i = 0; i < 9; i++) {
+		margem.push_back(make_pair(0, i));
+		margem.push_back(make_pair(i, 0));
+		margem.push_back(make_pair(i, 8));
+		margem.push_back(make_pair(8, i));
+	}
 }
 void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue)
 {
@@ -35,6 +43,44 @@ void Tabuleiro::trocaJogadorDaVez() {
 	}
 }
 
+void Tabuleiro::verificaSeGanhou() {
+	bool ehRei = pecaSelecionada->getEhRei(); // verifica se a peça selecionada é o rei
+	if (ehRei) {
+		//se for o rei, tem que ver se chegou na margem.
+		int i = pecaSelecionada->getPosI();
+		int j = pecaSelecionada->getPosJ();
+		for (std::pair<int, int> m : margem)
+		{
+			// rei sueco chegou na margem
+			if (m.first == i && m.second == j) {
+				fimDeJogo = 0;
+				cout << "Jogador sueco ganhou" << endl;
+				exit(1);
+			}
+		}
+	}
+	// está na vez dos russos
+	if (jogadorDaVez == 1) {
+		vector<Peca*> pecas = sueco->getPecas();
+		// verifica se os suecos ainda possuem o rei
+		bool temRei = false;
+		for (int i = 0; i < pecas.size(); i++) {
+			if (pecas[i]->getEhRei() == true) {
+				temRei = true;
+				break;
+			}
+		}
+		if (temRei == false) {
+			fimDeJogo = 1;
+			cout << "Jogador russo ganhou" << endl;
+			exit(1);
+		}
+	}
+
+}
+
+
+
 void Tabuleiro::Display()
 {
 	glLineWidth(5.0);
@@ -44,6 +90,7 @@ void Tabuleiro::Display()
 	gluOrtho2D(0, (9 * TAM_QUADRADO), 0, (9 * TAM_QUADRADO));
 	glClear(GL_COLOR_BUFFER_BIT); //pinta com a cor do glClearColor(.....)
 	
+
 	// Desenha as casas russas
 	for (int i = 3; i < 6; i++)
 	{
@@ -116,18 +163,17 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 		}
 		else
 		{
-			// escolheu uma casa para mover
+			// escolheu uma casa para mover e tem peça selecionada
 			if (pecaSelecionada != nullptr)
 			{
 				bool moveu = pecaSelecionada->setPos(i, j); // move a peça, se possivel
 				if (moveu != false) { // só passa a vez do jogador se fizer um movimento valido
-					trocaJogadorDaVez(); // alterna entre os jogadores só se moveu a peça
+					trocaJogadorDaVez(); // alterna entre os jogadores
+					verificaSeGanhou();
 				}
 				pecaSelecionada->setSelecionado(false); // desfaz a seleçao
 				pecaSelecionada = nullptr;
 				pospossible.clear();
-				
-
 			}
 		}
 	}
