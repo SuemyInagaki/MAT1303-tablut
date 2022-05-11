@@ -121,7 +121,22 @@ void Tabuleiro::verificaSeCapturou() {
 					pecasRussas = russo->getPecas();
 					c--;
 				}
-				//falta o caso da margem
+			}
+			// peça esta na margem
+			else {
+				if ((i == 8 || i == 0) && j < 8) {
+					if ((hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 10) {
+						russo->remove(c);
+						pecasRussas = russo->getPecas();
+						c--;
+					}
+				}else if ((j == 8 || j == 0) && i < 8) {
+					if ((hasPeca(i-1, j) + hasPeca(i+1, j)) == 10) {
+						russo->remove(c);
+						pecasRussas = russo->getPecas();
+						c--;
+					}
+				}
 			}
 			c++;
 		}
@@ -146,7 +161,23 @@ void Tabuleiro::verificaSeCapturou() {
 					pecasSuecas = sueco->getPecas();
 					c--;
 				}
-				//falta o caso da margem
+			}
+			else {
+				if ((i == 8 || i == 0) && j < 8) {
+
+					if ((hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 2) {
+						sueco->remove(c);
+						pecasSuecas = sueco->getPecas();
+						c--;
+					}
+				}
+				else if ((j == 8 || j == 0) && i < 8) {
+					if ((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 2) {
+						sueco->remove(c);
+						pecasSuecas = sueco->getPecas();
+						c--;
+					}
+				}
 			}
 			c++;
 		}
