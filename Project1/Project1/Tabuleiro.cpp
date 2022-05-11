@@ -25,6 +25,15 @@ void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyt
 	glEnd();
 }
 
+void Tabuleiro::trocaJogadorDaVez() {
+	if (jogadorDaVez == 0) {
+		jogadorDaVez = 1;
+	}
+	else {
+		jogadorDaVez = 0;
+	}
+}
+
 void Tabuleiro::Display()
 {
 	glLineWidth(5.0);
@@ -34,7 +43,7 @@ void Tabuleiro::Display()
 	gluOrtho2D(0, (9 * TAM_QUADRADO), 0, (9 * TAM_QUADRADO));
 	glClear(GL_COLOR_BUFFER_BIT); //pinta com a cor do glClearColor(.....)
 	
-	// Desenha as peças russas
+	// Desenha as casas russas
 	for (int i = 3; i < 6; i++)
 	{
 		desenhaQuadrado(0, i, 120, 78, 47);
@@ -48,7 +57,7 @@ void Tabuleiro::Display()
 	desenhaQuadrado(4, 7, 120, 78, 47);
 	desenhaQuadrado(4, 4, 120, 78, 47);
 
-	// desenha as peças suecas
+	// desenha as casas suecas
 	for (int i = 2; i < 4; i++) {
 		desenhaQuadrado(i, 4, 214, 135, 78);
 		desenhaQuadrado(i + 3, 4, 214, 135, 78);
@@ -86,7 +95,13 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 
 		int i = x / TAM_QUADRADO;
 		int j = (DIMX - y) / TAM_QUADRADO;
-		Peca* sel = russo->select(i, j);
+		Peca* sel;
+		if (jogadorDaVez == 0) {
+			sel = sueco->select(i, j);
+		}
+		else {
+			sel = russo->select(i, j);
+		}
 		if (sel != nullptr)
 		{
 			pospossible.clear();
@@ -100,12 +115,15 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 		}
 		else
 		{
+			// selecionou uma peça
 			if (pecaSelecionada != nullptr)
 			{
-				pecaSelecionada->setPos(i, j);
-				pecaSelecionada->setSelecionado(false);
+				pecaSelecionada->setPos(i, j); // move a peça
+				pecaSelecionada->setSelecionado(false); // desfaz a seleçao
 				pecaSelecionada = nullptr;
 				pospossible.clear();
+				trocaJogadorDaVez(); // alterna entre os jogadores 
+
 			}
 		}
 	}

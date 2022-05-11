@@ -32,6 +32,7 @@ static void resize(int width, int height)
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
+
 	while (qt != 1 && qt != 2) {
 		cout << "Digite a quantidade de jogadores" << endl;
 		cout << "1 se for jogar contra o computador" << endl;

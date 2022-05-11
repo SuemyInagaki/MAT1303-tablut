@@ -13,7 +13,10 @@ private:
 	Jogador *sueco;
 	Peca* pecaSelecionada;
 	std::vector<std::pair<int, int>> pospossible;
+	int jogadorDaVez = 0;
 	void desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue);
+	void trocaJogadorDaVez();
+
 public:
 	static Tabuleiro* getInstance()
 	{

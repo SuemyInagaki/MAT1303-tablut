@@ -41,6 +41,7 @@ Jogador::Jogador(bool temRei) {
 	}
 }
 
+// pinta as peças
 void Jogador::Display()
 {
 	for (Peca *peca : d_pecas) {
