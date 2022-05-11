@@ -8,10 +8,13 @@ using namespace std;
 #define DIMY 630
 
 int qt = 0; //quantidade de jogadores
-
+bool contraComputador = false;
 static void display()
 {
 	Tabuleiro::getInstance()->Display();
+	if (contraComputador == true) {
+		Tabuleiro::getInstance()->setContraComputador();
+	}
 	glFlush(); //transfere o colorBuffer para a visualizacao
 	glutSwapBuffers();
 }
@@ -46,17 +49,15 @@ int main(int argc, char** argv)
 
 	if (qt == 1) {
 		//Inicia com computador
+		contraComputador = true;
 	}
-	else {
-		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-		glutInitWindowSize(DIMX, DIMY);
-		glutInitWindowPosition(50, 50);
-		glutCreateWindow("Tablut");
-		glutDisplayFunc(display); //precisa ser um metodo estatico
-		glutMouseFunc(mouseButton); //le se um botao do mouse foi pressionado
-		glutReshapeFunc(resize);
-		glutMainLoop();
-	}
-
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowSize(DIMX, DIMY);
+	glutInitWindowPosition(50, 50);
+	glutCreateWindow("Tablut");
+	glutDisplayFunc(display); //precisa ser um metodo estatico
+	glutMouseFunc(mouseButton); //le se um botao do mouse foi pressionado
+	glutReshapeFunc(resize);
+	glutMainLoop();
 	
 }

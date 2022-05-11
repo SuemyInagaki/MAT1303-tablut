@@ -18,7 +18,9 @@ private:
 	void trocaJogadorDaVez();
 	void verificaSeGanhou();
 	int fimDeJogo;
+	void verificaSeCapturou();
 	std::vector<std::pair<int, int>> margem;
+	bool contraComputador;
 
 public:
 	static Tabuleiro* getInstance()
@@ -36,5 +38,7 @@ public:
 	{
 		return pospossible;
 	}
+	void setContraComputador();
+	void moveAleatoriamente();
 };
 
