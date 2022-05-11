@@ -44,30 +44,42 @@ void Tabuleiro::trocaJogadorDaVez() {
 }
 
 void Tabuleiro::verificaSeGanhou() {
-	
-	bool ehRei = pecaSelecionada->getEhRei(); // verifica se a peça selecionada é o rei
-	if (ehRei) {
-		//se for o rei, tem que ver se chegou na margem.
-		int i = pecaSelecionada->getPosI();
-		int j = pecaSelecionada->getPosJ();
-		for (pair<int, int> m : margem)
-		{
-			// rei sueco chegou na margem
-			if (m.first == i && m.second == j) {
-				fimDeJogo = 0;
-				cout << "Jogador sueco ganhou" << endl;
-				exit(1);
+	vector<Peca*> suecos = sueco->getPecas();
+	vector<Peca*> russos = russo->getPecas();
+	if (jogadorDaVez == 0) {
+		bool ehRei = pecaSelecionada->getEhRei(); // verifica se a peça selecionada é o rei
+		if (ehRei) {
+			//se for o rei, tem que ver se chegou na margem.
+			int i = pecaSelecionada->getPosI();
+			int j = pecaSelecionada->getPosJ();
+			for (pair<int, int> m : margem)
+			{
+				// rei sueco chegou na margem
+				if (m.first == i && m.second == j) {
+					fimDeJogo = 0;
+					cout << "Jogador sueco ganhou" << endl;
+					exit(1);
+				}
 			}
 		}
+		
+		if (russos.size() == 0) {
+			fimDeJogo = 0;
+			cout << "Jogador sueco ganhou" << endl;
+			exit(1);
+		}
 	}
-	
 	// está na vez dos russos
 	if (jogadorDaVez == 1) {
-		vector<Peca*> pecas = sueco->getPecas();
+		if (suecos.size() == 0) {
+			fimDeJogo = 1;
+			cout << "Jogador russo ganhou" << endl;
+			exit(1);
+		}
 		// verifica se os suecos ainda possuem o rei
 		bool temRei = false;
-		for (int i = 0; i < pecas.size(); i++) {
-			if (pecas[i]->getEhRei() == true) {
+		for (int i = 0; i < suecos.size(); i++) {
+			if (suecos[i]->getEhRei() == true) {
 				temRei = true;
 				break;
 			}
@@ -144,21 +156,21 @@ void Tabuleiro::verificaSeCapturou() {
 void Tabuleiro::moveAleatoriamente() {
 	// pega as peças russas
 	vector<Peca*> pecasRussas = russo->getPecas();
-	while (pospossible.size() == 0) { //enquanto nao encontrar uma peça livre para mover, continua procurando
-		if (pecasRussas.size() != 0) {
-			int index = std::rand() % (pecasRussas.size());
-			pecaSelecionada = pecasRussas[index]; // escolhe a peça aleatoriamente
-			pecaSelecionada->setSelecionado(true);
-			pecaSelecionada->getPosPossible(pospossible); //preenche o vetor de possibilidades
-			if (pospossible.size() > 0) { //se a peça tem casas livres para mover
-				int index2 = std::rand() % (pospossible.size());
-				int i = pospossible[index2].first;
-				int j = pospossible[index2].second;
-				pecaSelecionada->setPos(i, j);
-			}
+	pospossible.clear(); //apaga os dados do movimento sueco
+	while (pospossible.size() == 0) {
+		int index = std::rand() % (pecasRussas.size());
+		pecaSelecionada = pecasRussas[index]; // escolhe a peça aleatoriamente
+		pecaSelecionada->setSelecionado(true);
+		pecaSelecionada->getPosPossible(pospossible); //preenche o vetor de possibilidades
+		if (pospossible.size() == 0) {
+			pospossible.clear();
+			pecaSelecionada->setSelecionado(false);
 		}
-		else { //nao tem mais peças russas
-			break;
+		else {
+			int index2 = std::rand() % (pospossible.size());
+			int i = pospossible[index2].first;
+			int j = pospossible[index2].second;
+			pecaSelecionada->setPos(i, j);
 		}
 	}
 }
@@ -254,6 +266,7 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 					verificaSeGanhou();
 					trocaJogadorDaVez(); // alterna entre os jogadores
 					if (contraComputador == true) {
+						// inicia a jogada do computador (russo)
 						pecaSelecionada->setSelecionado(false); // desfaz a seleçao da peça sueca
 						pecaSelecionada = nullptr;
 						pospossible.clear();

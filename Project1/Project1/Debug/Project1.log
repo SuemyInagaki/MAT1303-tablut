@@ -1,5 +1,5 @@
 ﻿  Tabuleiro.cpp
-c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(69): warning C4018: '<': incompatibilidade de signed/unsigned
-c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(94): warning C4018: '<': incompatibilidade de signed/unsigned
-c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(119): warning C4018: '<': incompatibilidade de signed/unsigned
+c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(81): warning C4018: '<': incompatibilidade de signed/unsigned
+c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(106): warning C4018: '<': incompatibilidade de signed/unsigned
+c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(131): warning C4018: '<': incompatibilidade de signed/unsigned
   Project1.vcxproj -> C:\Users\Felipe\INF1636-Latitude90\MAT1303-tablut\Project1\Debug\Project1.exe
