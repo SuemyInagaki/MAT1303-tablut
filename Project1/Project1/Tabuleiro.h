@@ -13,7 +13,7 @@ private:
 	Jogador *sueco;
 	Peca* pecaSelecionada;
 	std::vector<std::pair<int, int>> pospossible;
-	int jogadorDaVez = 0;
+	int jogadorDaVez;
 	void desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue);
 	void trocaJogadorDaVez();
 

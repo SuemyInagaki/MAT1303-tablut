@@ -12,6 +12,7 @@ Tabuleiro::Tabuleiro()
 {
 	russo = new Jogador(false);
 	sueco = new Jogador(true);
+	jogadorDaVez = 0;
 	pecaSelecionada = nullptr;
 }
 void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue)
@@ -115,14 +116,17 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 		}
 		else
 		{
-			// selecionou uma peça
+			// escolheu uma casa para mover
 			if (pecaSelecionada != nullptr)
 			{
-				pecaSelecionada->setPos(i, j); // move a peça
+				bool moveu = pecaSelecionada->setPos(i, j); // move a peça, se possivel
+				if (moveu != false) { // só passa a vez do jogador se fizer um movimento valido
+					trocaJogadorDaVez(); // alterna entre os jogadores só se moveu a peça
+				}
 				pecaSelecionada->setSelecionado(false); // desfaz a seleçao
 				pecaSelecionada = nullptr;
 				pospossible.clear();
-				trocaJogadorDaVez(); // alterna entre os jogadores 
+				
 
 			}
 		}
