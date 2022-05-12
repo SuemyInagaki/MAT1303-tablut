@@ -21,6 +21,7 @@ private:
 	void verificaSeCapturou();
 	std::vector<std::pair<int, int>> margem;
 	bool contraComputador;
+	bool desabilitaClick;
 
 public:
 	static Tabuleiro* getInstance()

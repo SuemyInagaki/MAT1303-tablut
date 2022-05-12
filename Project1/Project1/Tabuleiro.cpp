@@ -22,6 +22,7 @@ Tabuleiro::Tabuleiro()
 		margem.push_back(make_pair(i, 8));
 		margem.push_back(make_pair(8, i));
 	}
+	desabilitaClick = false;
 }
 
 /*
@@ -79,24 +80,30 @@ void Tabuleiro::verificaSeGanhou() {
 				// rei sueco chegou na margem
 				if (m.first == i && m.second == j) {
 					fimDeJogo = 0;
+					cout << "**************************************************\n";
 					cout << "Jogador sueco ganhou" << endl;
-					exit(1);
+					cout << "**************************************************\n";
+					desabilitaClick = true;
 				}
 			}
 		}
 		
 		if (russos.size() == 0) {
 			fimDeJogo = 0;
+			cout << "**************************************************\n";
 			cout << "Jogador sueco ganhou" << endl;
-			exit(1);
+			cout << "**************************************************\n";
+			desabilitaClick = true;
 		}
 	}
 	// está na vez dos russos
 	if (jogadorDaVez == 1) {
 		if (suecos.size() == 0) {
 			fimDeJogo = 1;
+			cout << "**************************************************\n";
 			cout << "Jogador russo ganhou" << endl;
-			exit(1);
+			cout << "**************************************************\n";
+			desabilitaClick = true;
 		}
 		// verifica se os suecos ainda possuem o rei
 		bool temRei = false;
@@ -108,8 +115,10 @@ void Tabuleiro::verificaSeGanhou() {
 		}
 		if (temRei == false) {
 			fimDeJogo = 1;
+			cout << "**************************************************\n";
 			cout << "Jogador russo ganhou" << endl;
-			exit(1);
+			cout << "**************************************************\n";
+			desabilitaClick = true;
 		}
 	}
 }
@@ -217,7 +226,8 @@ void Tabuleiro::verificaSeCapturou() {
 						}
 					}
 				}
-				else {
+				else { //a peça cercada eh o Rei
+					// tem quatro peças cercando
 					if (((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 2) && (hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 2) {
 						// alguma dessas peças foi a que moveu agora?
 						if ((ii == (i - 1) && jj == j) || (ii == (i + 1) && jj == j) || (ii == (i) && jj == j - 1) || (ii == (i) && jj == j + 1)) {
@@ -226,6 +236,12 @@ void Tabuleiro::verificaSeCapturou() {
 							c--;
 						}
 					}
+					// se tiver 3 peças e estiver perto do trono do rei
+					/*
+					else if () {
+
+					}
+					*/
 				}
 			}
 			else {
@@ -365,56 +381,59 @@ E a cada movimento, chama as funcoes verificaSeGanhou e verificaSeCapturou
 *********************************************************/
 void Tabuleiro::MouseButton(int button, int state, int x, int y)
 {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
-	{
-
-		int i = x / TAM_QUADRADO;
-		int j = (DIMX - y) / TAM_QUADRADO;
-		Peca* sel;
-		if (jogadorDaVez == 0) {
-			sel = sueco->select(i, j);
-		}
-		else {
-			sel = russo->select(i, j);
-		}
-		if (sel != nullptr)
+	if (desabilitaClick == false) {
+		if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
 		{
-			pospossible.clear();
-			if (sel->isSelecionado() && pecaSelecionada && pecaSelecionada != sel)
-				pecaSelecionada->setSelecionado(false);
 
-			pecaSelecionada = sel;
-
-			if (pecaSelecionada->isSelecionado())
-				pecaSelecionada->getPosPossible(pospossible);
-		}
-		else
-		{
-			// escolheu uma casa para mover e tem peça selecionada
-			if (pecaSelecionada != nullptr)
+			int i = x / TAM_QUADRADO;
+			int j = (DIMX - y) / TAM_QUADRADO;
+			Peca* sel;
+			if (jogadorDaVez == 0) {
+				sel = sueco->select(i, j);
+			}
+			else {
+				sel = russo->select(i, j);
+			}
+			if (sel != nullptr)
 			{
-				bool moveu = pecaSelecionada->setPos(i, j); // move a peça, se possivel
-				if (moveu != false) { // só passa a vez do jogador se fizer um movimento valido
-					verificaSeCapturou();
-					verificaSeGanhou();
-					trocaJogadorDaVez(); // alterna entre os jogadores
-					if (contraComputador == true) {
-						// inicia a jogada do computador (russo)
-						pecaSelecionada->setSelecionado(false); // desfaz a seleçao da peça sueca
-						pecaSelecionada = nullptr;
-						pospossible.clear();
-						moveAleatoriamente(); //move a peça russa aleatoriamente
+				pospossible.clear();
+				if (sel->isSelecionado() && pecaSelecionada && pecaSelecionada != sel)
+					pecaSelecionada->setSelecionado(false);
+
+				pecaSelecionada = sel;
+
+				if (pecaSelecionada->isSelecionado())
+					pecaSelecionada->getPosPossible(pospossible);
+			}
+			else
+			{
+				// escolheu uma casa para mover e tem peça selecionada
+				if (pecaSelecionada != nullptr)
+				{
+					bool moveu = pecaSelecionada->setPos(i, j); // move a peça, se possivel
+					if (moveu != false) { // só passa a vez do jogador se fizer um movimento valido
 						verificaSeCapturou();
 						verificaSeGanhou();
-						trocaJogadorDaVez(); // passa a vez de volta para os suecos
+						trocaJogadorDaVez(); // alterna entre os jogadores
+						if (contraComputador == true) {
+							// inicia a jogada do computador (russo)
+							pecaSelecionada->setSelecionado(false); // desfaz a seleçao da peça sueca
+							pecaSelecionada = nullptr;
+							pospossible.clear();
+							moveAleatoriamente(); //move a peça russa aleatoriamente
+							verificaSeCapturou();
+							verificaSeGanhou();
+							trocaJogadorDaVez(); // passa a vez de volta para os suecos
+						}
 					}
+					pecaSelecionada->setSelecionado(false); // desfaz a seleçao
+					pecaSelecionada = nullptr;
+					pospossible.clear();
 				}
-				pecaSelecionada->setSelecionado(false); // desfaz a seleçao
-				pecaSelecionada = nullptr;
-				pospossible.clear();
 			}
 		}
 	}
+	
 }
 
 /*********************************************************
