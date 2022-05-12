@@ -23,6 +23,16 @@ Tabuleiro::Tabuleiro()
 		margem.push_back(make_pair(8, i));
 	}
 }
+
+/*
+desenhaQuadrado
+Função que desenha os quadrados do tabuleiro
+A cor varia:
+- Se for casa sueca
+- Se for casa russa
+- Se for demais casas
+- Se a casa tiver selecionada
+*/
 void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyte blue)
 {
 	glColor3ub(red, green, blue);
@@ -34,6 +44,10 @@ void Tabuleiro::desenhaQuadrado(int i, int j, GLubyte red, GLubyte green, GLubyt
 	glEnd();
 }
 
+/*********************************************************
+trocaJogadorDaVez
+Função que passa a vez do jogador
+**********************************************************/
 void Tabuleiro::trocaJogadorDaVez() {
 	if (jogadorDaVez == 0) {
 		jogadorDaVez = 1;
@@ -43,6 +57,14 @@ void Tabuleiro::trocaJogadorDaVez() {
 	}
 }
 
+/*********************************************************
+verificaSeGanhou:
+Função que verifica se algum jogador venceu.
+Ela deve ser chamada ao final de cada movimento. 
+Caso o jogador sueco ganhe, a função define fimDeJogo como 0
+Caso o jogador russo ganhe, a função define fimDeJogo como 1
+Nos dois caso a função finaliza o programa ao identificar a vitória.
+*********************************************************/
 void Tabuleiro::verificaSeGanhou() {
 	vector<Peca*> suecos = sueco->getPecas();
 	vector<Peca*> russos = russo->getPecas();
@@ -92,11 +114,29 @@ void Tabuleiro::verificaSeGanhou() {
 	}
 }
 
+/*********************************************************
+setContraComputador
+Função que deve ser chamada na main caso o jogo seja contra o computador
+Ela define a variável contraComputador como true
+*********************************************************/
 void Tabuleiro::setContraComputador() {
 	contraComputador = true;
 }
 
+/*********************************************************
+verificaSeCapturou
+Função que verifica se alguma peça foi capturada
+Deve ser chamada ao final de cada movimento
+Ela varre todo o tabuleiro e verifica:
+- Se tem peças russas cercando peças suecas
+- Se tem peças suecas cercando peças russas
+Caso encontre alguma peça cercada, verifica se alguma
+das peças que a cercam foi mexida naquela jogada. Pois a captura
+não é valida quando a peça cercada se coloca entre duas peças inimigas
 
+Ela faz uma verificação especial quando é o Rei, pois ele precisa que 
+quatro peças russas o cerquem. 
+*********************************************************/
 void Tabuleiro::verificaSeCapturou() {
 	vector<Peca*> pecasRussas = russo->getPecas();
 	vector<Peca*> pecasSuecas = sueco->getPecas();
@@ -215,6 +255,20 @@ void Tabuleiro::verificaSeCapturou() {
 	}
 }
 
+/*********************************************************
+moveAleatoriamente
+Função que é chamada quando o jogo é contra o computador
+Essa função faz os movimentos aleatórios na vez do computador
+Definimos que o computador sempre vai ser russo
+
+A função pega as peças russas, gera um indice aleatório entre 0 e 
+o tamanho das peças russas - 1. Assim, depois de escolher a peça, 
+a função verifica se essa peça tem movimentos válidos:
+- caso tenha, gera outro indice aleatorio e escolhe um movimento para fazer
+- caso não tenha, a função escolhe outra peça. 
+
+Ela fica em um loop até encontrar uma peça com movimento válido
+*********************************************************/
 void Tabuleiro::moveAleatoriamente() {
 	// pega as peças russas
 	vector<Peca*> pecasRussas = russo->getPecas();
@@ -237,6 +291,12 @@ void Tabuleiro::moveAleatoriamente() {
 	}
 }
 
+/*********************************************************
+Display
+
+Função que desenha o tabuleiro
+Depois de desenhar o tabuleiro, chama as funções de display das peças russas e suecas
+*********************************************************/
 void Tabuleiro::Display()
 {
 	glLineWidth(5.0);
@@ -292,6 +352,16 @@ void Tabuleiro::Display()
 	sueco->Display();
 }
 
+/*********************************************************
+MouseButton
+Função que identifica o clique do mouse
+Ao clicar em uma peça, a variável pecaSelecionada guarda a peça selecionada
+No segundo clique, caso a peça selecionada seja diferente de nullptr, isso significa que 
+existe alguma peça selecionada antes e então fazemos o movimento. 
+
+A função toma cuidado com o caso de clicar em uma casa inválida para mexer
+E a cada movimento, chama as funcoes verificaSeGanhou e verificaSeCapturou
+*********************************************************/
 void Tabuleiro::MouseButton(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
@@ -345,6 +415,14 @@ void Tabuleiro::MouseButton(int button, int state, int x, int y)
 		}
 	}
 }
+
+/*********************************************************
+hasPeca
+Função que verifica se tem peça na casa (i, j)
+- Caso tenha peça e a peça seja russa, a função retorna 1
+- Caso tenha peça e a peça seja sueca, a função retorna 5;
+- Caso não tenha peça, a função retorna -1.
+*********************************************************/
 
 int Tabuleiro::hasPeca(int i, int j)
 {

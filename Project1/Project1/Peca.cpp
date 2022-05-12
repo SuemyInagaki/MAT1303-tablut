@@ -9,6 +9,13 @@
 
 #define DISCR 36
 
+
+/*********************************************************
+getPosPossible
+
+preenche o vetor pospossible com as posições possíveis da peça
+*********************************************************/
+
 void Peca::getPosPossible(std::vector<std::pair<int, int>>& pospossible)
 {
 	Tabuleiro *tabuleiro = Tabuleiro::getInstance();
@@ -38,6 +45,14 @@ void Peca::getPosPossible(std::vector<std::pair<int, int>>& pospossible)
 	}
 }
 
+
+/*********************************************************
+setPos
+
+Define a posição da peça
+define d_pos_i com o i recebido 
+define d_pos_j com o j recebido
+*********************************************************/
 bool Peca::setPos(int i, int j) {
 	std::vector<std::pair<int, int>>& pospossible = Tabuleiro::getInstance()->getPospossible();
 	for (std::pair<int, int> pos : pospossible)
@@ -48,6 +63,12 @@ bool Peca::setPos(int i, int j) {
 		}
 	return false;
 }
+
+/*********************************************************
+Display
+
+ponta as peças
+*********************************************************/
 
 void Peca::Display()
 {
@@ -75,10 +96,24 @@ void Peca::Display()
 	}
 }
 
+
+/*********************************************************
+getEhRei
+
+retorna o valor da variavel ehRei.
+Se a peça for rei, retorna true.
+Se a peça não for rei, retorna false.
+*********************************************************/
 bool Peca::getEhRei() {
 	return d_ehRei;
 }
 
+/*ACHO QUE NAO TA SENDO USADO*/
+/*********************************************************
+remove 
+
+Define d_pos_i e d_pos_j como -1. 
+*********************************************************/
 void Peca::remove() {
 	d_pos_i = -1, d_pos_j = -1;
 }

@@ -40,8 +40,12 @@ Jogador::Jogador(bool temRei) {
 		d_pecas.push_back(peca);
 	}
 }
+/*********************************************************
+Display
 
-// pinta as peças
+Define a cor dependendo se é sueco ou russo
+Chama a display do módulo Peca
+*********************************************************/
 void Jogador::Display()
 {
 	for (Peca *peca : d_pecas) {
@@ -52,7 +56,11 @@ void Jogador::Display()
 		peca->Display();
 	}
 }
+/*********************************************************
+get
 
+Retorna o ponteiro para a peça do jogador na posição (i, j), caso exista
+*********************************************************/
 Peca* Jogador::get(int i, int j)
 {
 	for (Peca* peca : d_pecas) {
@@ -63,6 +71,11 @@ Peca* Jogador::get(int i, int j)
 	return nullptr;
 }
 
+/*********************************************************
+select
+
+Seleciona ou deseleciona a peça na posicao (i, j)
+*********************************************************/
 Peca* Jogador::select(int i, int j) {
 	Peca* peca = get(i, j);
 	if (peca != nullptr)
@@ -71,10 +84,20 @@ Peca* Jogador::select(int i, int j) {
 	return peca;
 }
 
+/*********************************************************
+getPecas
+
+retorna o vetor de peças do jogador
+*********************************************************/
 std::vector<Peca*> Jogador::getPecas() {
 	return d_pecas;
 }
 
+/*********************************************************
+remove
+
+remove a peça do vetor de peças na posicao recebida como parâmetro
+*********************************************************/
 void Jogador::remove(int posicao) {
 	d_pecas.erase(d_pecas.begin()+posicao);
 }
