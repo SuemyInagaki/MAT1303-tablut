@@ -101,9 +101,11 @@ void Tabuleiro::verificaSeCapturou() {
 	vector<Peca*> pecasRussas = russo->getPecas();
 	vector<Peca*> pecasSuecas = sueco->getPecas();
 
-	if (jogadorDaVez == 0) { //ver se os suecos cercaram algum russo
+	int ii = pecaSelecionada->getPosI();
+	int jj = pecaSelecionada->getPosJ();
+	if (jogadorDaVez == 0) { //ve se os suecos cercaram algum russo
 		int c = 0;
-		while (c < pecasRussas.size()) {
+		while (c < pecasRussas.size()) { // percorre todas as peças russas pra ver se tem alguma cercada
 			Peca* p = pecasRussas[c];
 			int i = p->getPosI();
 			int j = p->getPosJ();
@@ -115,26 +117,35 @@ void Tabuleiro::verificaSeCapturou() {
 					ehMargem = true;
 				}
 			}
+			// peça nao esta na margem
 			if (ehMargem == false) {
+				// tem peça russa cercada por peças suecas
 				if (((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 10) || (hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 10) {
-					russo->remove(c);
-					pecasRussas = russo->getPecas();
-					c--;
+					// alguma dessas peças foi a que moveu agora?
+					if ((ii == (i - 1) && jj == j) || (ii == (i + 1) && jj == j) || (ii == (i) && jj == j - 1) || (ii == (i) && jj == j + 1)) {
+						russo->remove(c);
+						pecasRussas = russo->getPecas();
+						c--;
+					}
 				}
 			}
 			// peça esta na margem
 			else {
 				if ((i == 8 || i == 0) && j < 8) {
 					if ((hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 10) {
-						russo->remove(c);
-						pecasRussas = russo->getPecas();
-						c--;
+						if ((ii == i && jj == j-1) || (ii == i && jj == j+1)) {
+							russo->remove(c);
+							pecasRussas = russo->getPecas();
+							c--;
+						}	
 					}
 				}else if ((j == 8 || j == 0) && i < 8) {
 					if ((hasPeca(i-1, j) + hasPeca(i+1, j)) == 10) {
-						russo->remove(c);
-						pecasRussas = russo->getPecas();
-						c--;
+						if ((ii == i-1 && jj == j) || (ii == i+1 && jj == j)) {
+							russo->remove(c);
+							pecasRussas = russo->getPecas();
+							c--;
+						}
 					}
 				}
 			}
@@ -156,26 +167,46 @@ void Tabuleiro::verificaSeCapturou() {
 				}
 			}
 			if (ehMargem == false) {
-				if (((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 2) || (hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 2) {
-					sueco->remove(c);
-					pecasSuecas = sueco->getPecas();
-					c--;
+				if (pecasSuecas[c]->getEhRei() == false) {
+					if (((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 2) || (hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 2) {
+						// alguma dessas peças foi a que moveu agora?
+						if ((ii == (i - 1) && jj == j) || (ii == (i + 1) && jj == j) || (ii == (i) && jj == j - 1) || (ii == (i) && jj == j + 1)) {
+							sueco->remove(c);
+							pecasSuecas = sueco->getPecas();
+							c--;
+						}
+					}
+				}
+				else {
+					if (((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 2) && (hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 2) {
+						// alguma dessas peças foi a que moveu agora?
+						if ((ii == (i - 1) && jj == j) || (ii == (i + 1) && jj == j) || (ii == (i) && jj == j - 1) || (ii == (i) && jj == j + 1)) {
+							sueco->remove(c);
+							pecasSuecas = sueco->getPecas();
+							c--;
+						}
+					}
 				}
 			}
 			else {
 				if ((i == 8 || i == 0) && j < 8) {
 
 					if ((hasPeca(i, j - 1) + hasPeca(i, j + 1)) == 2) {
-						sueco->remove(c);
-						pecasSuecas = sueco->getPecas();
-						c--;
+						if ((ii == i && jj == j - 1) || (ii == i && jj == j + 1)) {
+							sueco->remove(c);
+							pecasSuecas = sueco->getPecas();
+							c--;
+						}
+						
 					}
 				}
 				else if ((j == 8 || j == 0) && i < 8) {
 					if ((hasPeca(i - 1, j) + hasPeca(i + 1, j)) == 2) {
-						sueco->remove(c);
-						pecasSuecas = sueco->getPecas();
-						c--;
+						if ((ii == i-1 && jj == j) || (ii == i+1 && jj == j)) {
+							sueco->remove(c);
+							pecasSuecas = sueco->getPecas();
+							c--;
+						}
 					}
 				}
 			}
