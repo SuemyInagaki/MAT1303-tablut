@@ -52,7 +52,5 @@ public:
 	void Display();
 
 	bool getEhRei();
-
-	void remove();
 };
 

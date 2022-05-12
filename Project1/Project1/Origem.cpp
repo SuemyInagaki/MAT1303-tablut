@@ -1,6 +1,6 @@
 #include <iostream>
 #include <glut.h>
-#include "Tabuleiro.h"
+#include "Jogo.h"
 
 using namespace std;
 
@@ -11,9 +11,9 @@ int qt = 0; //quantidade de jogadores
 bool contraComputador = false;
 static void display()
 {
-	Tabuleiro::getInstance()->Display();
+	Jogo::getInstance()->Display();
 	if (contraComputador == true) {
-		Tabuleiro::getInstance()->setContraComputador();
+		Jogo::getInstance()->setContraComputador();
 	}
 	glFlush(); //transfere o colorBuffer para a visualizacao
 	glutSwapBuffers();
@@ -21,7 +21,7 @@ static void display()
 
 static void mouseButton(int button, int state, int x, int y)
 {
-	Tabuleiro::getInstance()->MouseButton(button, state, x, y);
+	Jogo::getInstance()->MouseButton(button, state, x, y);
 	display();
 }
 

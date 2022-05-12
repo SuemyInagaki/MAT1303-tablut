@@ -6,7 +6,7 @@
 
 #include "Peca.h"
 #include "Tabuleiro.h"
-
+#include "Jogo.h"
 #define DISCR 36
 
 
@@ -54,7 +54,7 @@ define d_pos_i com o i recebido
 define d_pos_j com o j recebido
 *********************************************************/
 bool Peca::setPos(int i, int j) {
-	std::vector<std::pair<int, int>>& pospossible = Tabuleiro::getInstance()->getPospossible();
+	std::vector<std::pair<int, int>>& pospossible = Jogo::getInstance()->getPospossible();
 	for (std::pair<int, int> pos : pospossible)
 		if (i == pos.first && j == pos.second) {
 			d_pos_i = i;
