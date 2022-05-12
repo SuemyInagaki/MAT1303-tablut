@@ -19,7 +19,7 @@ preenche o vetor pospossible com as posições possíveis da peça
 void Peca::getPosPossible(std::vector<std::pair<int, int>>& pospossible)
 {
 	Tabuleiro *tabuleiro = Tabuleiro::getInstance();
-	for (int i = d_pos_i + 1; i < 10; i++)
+	for (int i = d_pos_i + 1; i < 9; i++)
 	{
 		if (tabuleiro->hasPeca(i, d_pos_j) != -1)
 			break;
@@ -31,7 +31,7 @@ void Peca::getPosPossible(std::vector<std::pair<int, int>>& pospossible)
 			break;
 		pospossible.push_back(std::make_pair(i, d_pos_j));
 	}
-	for (int j = d_pos_j + 1; j < 10; j++)
+	for (int j = d_pos_j + 1; j < 9; j++)
 	{
 		if (tabuleiro->hasPeca(d_pos_i, j) != -1)
 			break;
@@ -106,14 +106,4 @@ Se a peça não for rei, retorna false.
 *********************************************************/
 bool Peca::getEhRei() {
 	return d_ehRei;
-}
-
-/*ACHO QUE NAO TA SENDO USADO*/
-/*********************************************************
-remove 
-
-Define d_pos_i e d_pos_j como -1. 
-*********************************************************/
-void Peca::remove() {
-	d_pos_i = -1, d_pos_j = -1;
 }

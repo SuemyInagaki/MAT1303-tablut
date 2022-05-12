@@ -278,9 +278,10 @@ void Tabuleiro::moveAleatoriamente() {
 		pecaSelecionada = pecasRussas[index]; // escolhe a peça aleatoriamente
 		pecaSelecionada->setSelecionado(true);
 		pecaSelecionada->getPosPossible(pospossible); //preenche o vetor de possibilidades
-		if (pospossible.size() == 0) {
+		
+		if (pospossible.size() == 0) { // se essa peça nao tem movimento possivel
 			pospossible.clear();
-			pecaSelecionada->setSelecionado(false);
+			pecaSelecionada->setSelecionado(false); //desfaz a seleção da peça
 		}
 		else {
 			int index2 = std::rand() % (pospossible.size());

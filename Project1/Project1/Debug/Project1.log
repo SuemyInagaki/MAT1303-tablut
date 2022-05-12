@@ -1,5 +1,8 @@
-﻿  Tabuleiro.cpp
-c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(89): warning C4018: '<': incompatibilidade de signed/unsigned
-c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(134): warning C4018: '<': incompatibilidade de signed/unsigned
-c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(183): warning C4018: '<': incompatibilidade de signed/unsigned
+﻿  Peca.cpp
+  Tabuleiro.cpp
+c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(103): warning C4018: '<': incompatibilidade de signed/unsigned
+c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(148): warning C4018: '<': incompatibilidade de signed/unsigned
+c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(197): warning C4018: '<': incompatibilidade de signed/unsigned
+c:\users\felipe\inf1636-latitude90\mat1303-tablut\project1\project1\tabuleiro.cpp(288): warning C4018: '<': incompatibilidade de signed/unsigned
+  Gerando Código...
   Project1.vcxproj -> C:\Users\Felipe\INF1636-Latitude90\MAT1303-tablut\Project1\Debug\Project1.exe
