@@ -1,6 +1,5 @@
 #pragma once
 #include "Jogo.h"
-
 using namespace std;
 
 Jogo::Jogo() {
@@ -249,12 +248,38 @@ void Jogo::verificaSeCapturou() {
 							c--;
 						}
 					}
+					
 					// se tiver 3 peças e estiver perto do trono do rei
-					/*
-					else if () {
-
+					else if (i == 5 && j == 4 && tab->hasPeca(5, 5) == 1 && tab->hasPeca(6,4) == 1 && tab->hasPeca(5,3) == 1) {
+						if ((ii == 5 && jj == 5) || (ii == 6 && jj == 4) || (ii == 5 && jj == 3)) {
+							sueco->remove(c);
+							pecasSuecas = sueco->getPecas();
+							c--;
+						}
+						
 					}
-					*/
+					else if (i == 3 && j == 4 && tab->hasPeca(3, 5) == 1 && tab->hasPeca(2, 4) == 1 && tab->hasPeca(3, 3) == 1) {
+						if ((ii == 3 && jj == 5) || (ii == 2 && jj == 4) || (ii == 3 && jj == 3)) {
+							sueco->remove(c);
+							pecasSuecas = sueco->getPecas();
+							c--;
+						}
+					}
+					else if (i == 4 && j == 5 && tab->hasPeca(3, 5) == 1 && tab->hasPeca(4, 6) == 1 && tab->hasPeca(5, 5) == 1) {
+						if ((ii == 3 && jj == 5) || (ii == 4 && jj == 6) || (ii == 5 && jj == 5)) {
+							sueco->remove(c);
+							pecasSuecas = sueco->getPecas();
+							c--;
+						}
+					}
+					else if (i == 4 && j == 3 && tab->hasPeca(4, 2) == 1 && tab->hasPeca(3, 3) == 1 && tab->hasPeca(5, 3) == 1) {
+						if ((ii == 4 && jj == 2) || (ii == 5 && jj == 3) || (ii == 3 && jj == 3)) {
+							sueco->remove(c);
+							pecasSuecas = sueco->getPecas();
+							c--;
+						}
+					}
+					
 				}
 			}
 			else {
